@@ -1,9 +1,20 @@
+"""
+this code still needs alot of modifications but as a first trial this what i got.
+
+DONE_by = {"Hisham Madcor":120170026, "Ahmed Nabil":120170033}
+"""
 
 import json
 import urllib2
 import pandas as pd
 
 def data(query):
+    """
+    this function implemets the summary of all the cases around the world and all
+    the countries when "summary" is typed in the function.
+    it also show all the data of every single country in alive form if you write
+    the name of the country as in  small characters and also between"".
+    """
     if query is "summary":
         url = "https://api.covid19api.com/summary"
         json_object = urllib2.urlopen(url)
