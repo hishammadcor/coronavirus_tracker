@@ -9,10 +9,14 @@ app = Flask(__name__)
 def data():
 
     url = "https://api.thevirustracker.com/free-api?countryTotals=ALL"
-    response = requests.request("GET", url=url)
-    df = json.loads(response.text)
+    url2 = "https://api.thevirustracker.com/free-api?global=stats"
+    response_ALL = requests.request("GET", url=url)
+    response_Global= requests.request("GET", url=url2)
 
-    return render_template("base.html", data = df)
+    df = json.loads(response_ALL.text)
+    df2 = json.loads(response_Global.text)
+
+    return render_template("base.html", data1= df, data = df2 )
 
 # @app.route('/country', methods = {'GET', 'POST'})
 #
