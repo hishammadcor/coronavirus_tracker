@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,render_template, request, redirect
+from flask import Flask,jsonify,render_template, request, redirect, url_for
 import requests
 import json
 import numpy
@@ -35,24 +35,32 @@ def plot():
     D,f = next(iter(dg["timelineitems"][0].items()))
 
     daily_cases= list()
+    daily_deaths= list()
     for days in dg["timelineitems"]:
         for day in days:
             if day == 'stat':
                 break
             else:
-                y = days[day]["new_daily_cases"]
-                daily_cases.append(y)
+                cases= days[day]["new_daily_cases"]
+                deaths= days[day]["new_daily_deaths"]
+                daily_cases.append(cases)
+                daily_deaths.append(deaths)
 
-    fig = plt.figure(figsize=(8, 6))
-    plt.plot(daily_cases,'b.', label= 'Daily cases')
+    plt.figure()
+    plt.plot(daily_cases,'b', label= "Daily cases")
     plt.xlabel("Number of days since "+ D)
     plt.ylabel("Number of cases")
-    img = plt.savefig('/home/hisham/Documents/coronavirus/static/imgs/' + country)
+    plt.title("Daily cases in " + country)
+    plt.grid(True)
+    img = plt.savefig('/home/hisham/Documents/coronavirus/static/imgs/' + country+'_cases')
 
-    return render_template("Country.html", data3=data3, country= country, url = '/home/hisham/Documents/coronavirus/static/imgs/' + country)
+    plt.figure()
+    plt.plot(daily_deaths,'r', label= "Daily Deaths")
+    plt.xlabel("Number of days since "+ D)
+    plt.ylabel("Number of deaths")
+    plt.title("Daily Deaths in " + country)
+    plt.grid(True)
+    img = plt.savefig('/home/hisham/Documents/coronavirus/static/imgs/' + country+'_deaths')
 
-
-# # plt.plot(Daily_cases(),'b.', label= 'Dailycases')
-# # plt.xlabel("Number of days since "+ D)
-# # plt.ylabel("Number of cases")
-# # plt.show()
+    return render_template("Country.html", data3=data3, country= country, cases = url_for('static', filename = '/imgs/'+country+'_cases.png')
+                                                                                , deaths = url_for('static', filename = '/imgs/'+country+'_deaths.png'))
