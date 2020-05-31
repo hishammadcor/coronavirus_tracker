@@ -4,6 +4,8 @@ import json
 import numpy
 import math
 import matplotlib.pyplot as plt
+from scipy import stats
+
 
 app = Flask(__name__)
 
@@ -47,7 +49,7 @@ def plot():
                 daily_deaths.append(deaths)
 
     plt.figure()
-    plt.plot(daily_cases,'b', label= "Daily cases")
+    plt.plot(daily_cases,'b.', label= "Daily cases")
     plt.xlabel("Number of days since "+ D)
     plt.ylabel("Number of cases")
     plt.title("Daily cases in " + country)
@@ -55,12 +57,36 @@ def plot():
     img = plt.savefig('/home/hisham/Documents/coronavirus/static/imgs/' + country+'_cases')
 
     plt.figure()
-    plt.plot(daily_deaths,'r', label= "Daily Deaths")
+    plt.plot(daily_deaths,'r.', label= "Daily Deaths")
     plt.xlabel("Number of days since "+ D)
     plt.ylabel("Number of deaths")
     plt.title("Daily Deaths in " + country)
     plt.grid(True)
     img = plt.savefig('/home/hisham/Documents/coronavirus/static/imgs/' + country+'_deaths')
 
+    def log_cases():
+        log_daily_cases= list()
+        for days in dg["timelineitems"]:
+            for day in days:
+                if day == 'stat':
+                    break
+                else:
+                    y = days[day]["new_daily_cases"]
+                    if  y == 0:
+                        log_daily_cases.append(y)
+                    else:
+                        i = math.log10(y)
+                        log_daily_cases.append(i)
+        return log_daily_cases
+
+    def days():
+        days = list()
+        for i in range(len(log_cases())):
+            days.append(i)
+        return days
+
+    slope, intercept, r_value, p_value, std_err = stats.linregress(days(), log_cases())
+    R = 10 ** (slope *6)
+
     return render_template("Country.html", data3=data3, country= country, cases = url_for('static', filename = '/imgs/'+country+'_cases.png')
-                                                                                , deaths = url_for('static', filename = '/imgs/'+country+'_deaths.png'))
+                                                , deaths = url_for('static', filename = '/imgs/'+country+'_deaths.png'), Reproductive=R)
