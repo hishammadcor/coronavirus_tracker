@@ -36,6 +36,9 @@ def plot():
 
     D,f = next(iter(dg["timelineitems"][0].items()))
 
+    first_day = f["new_daily_cases"]
+    log_first_day = math.log(first_day)
+
     daily_cases= list()
     daily_deaths= list()
     for days in dg["timelineitems"]:
@@ -88,5 +91,24 @@ def plot():
     slope, intercept, r_value, p_value, std_err = stats.linregress(days(), log_cases())
     R = 10 ** (slope *6)
 
+    def daily_R():
+        R = list()
+        for i,j in zip(log_cases(), days()):
+            if j != 0:
+                R_0= 10 ** ((6*(i-log_first_day))/j)
+                R.append(R_0)
+        return R
+
+    plt.figure()
+    plt.plot(daily_R(),'g.', label= "Daily R_0")
+    plt.xlabel("Number of days since "+ D)
+    plt.ylabel("Reproductive Number")
+    plt.title("Daily Reproductive Number in " + country)
+    plt.grid(True)
+    img = plt.savefig('/home/hisham/Documents/coronavirus/static/imgs/' + country+'_R')
+
+
+
     return render_template("Country.html", data3=data3, country= country, cases = url_for('static', filename = '/imgs/'+country+'_cases.png')
-                                                , deaths = url_for('static', filename = '/imgs/'+country+'_deaths.png'), Reproductive=R)
+                                            , deaths = url_for('static', filename = '/imgs/'+country+'_deaths.png'), Reproductive=R
+                                            , DailyR = url_for('static', filename = '/imgs/'+country+'_R.png'))
