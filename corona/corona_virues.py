@@ -4,7 +4,7 @@ import json
 import numpy
 import math
 import matplotlib.pyplot as plt
-from scipy import stats
+
 
 
 bp = Blueprint('corona_virues', __name__)
