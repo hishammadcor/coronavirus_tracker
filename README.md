@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Our purpose of the website is to allow our user's to be fully updated by the numbers of  cases in every country and all of the world.
+Our purpose of the website is to allow our user's to be fully updated by the numbers of cases in every country and all of the world.
 
 ## Scope
 
-"COVID-19 Tracker" is a web application to provide accurate and up to date data concern the pandemic crisis the new "Corona Virus COVID-19 ". This web application, based on a very simple concepts and design, gives the user all the information of every country, the world and also a very specific and data information. 
+"COVID-19 Tracker" is a web application to provide accurate and up-to-date data concern the pandemic crisis the new "Corona Virus COVID-19 ". This web application, based on a very simple concepts and design, gives the user all the information of every country, the world and also a very specific and data information. 
 
 ## Product perspective
 
@@ -40,9 +40,6 @@ a->>w: POST country data
 w->>s : GET saved plots
 s->>w : POST saved plots
 w->>u : Country page 
-
-
-
 ```
 
 ​	
