@@ -1,3 +1,4 @@
+# Make unit tests using pytest.
 import pytest
 from corona import create_app
 
