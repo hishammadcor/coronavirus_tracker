@@ -8,6 +8,19 @@ Our purpose of the website is to allow our user's to be fully updated by the num
 
 "COVID-19 Tracker" is a web application to provide accurate and up-to-date data concern the pandemic crisis the new "Corona Virus COVID-19 ". This web application, based on a very simple concepts and design, gives the user all the information of every country, the world and also a very specific and data information. 
 
+## Requirements:
+
+1. Python 3.6
+2. pip
+3. Flask 
+4. matplotlib
+5. pytest
+6. Scipy
+7. numpy
+8. json
+
+(All those libraries versions should be compatible with python 3.6)
+
 ## Product perspective
 
 the web application requires a constant and stable data connection to fetch the data from the API and to be constantly updated by the new information that the API provides every 10 minutes.
